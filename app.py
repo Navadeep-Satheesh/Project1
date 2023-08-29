@@ -63,4 +63,16 @@ def entry():
 
 if __name__ == "__main__":
     app.run(debug = True)
+#git init
+# git commit -m "first commit"
+# git branch -M main
+# git push -u origin main
 
+
+#####
+# git init
+# git add README.md
+# git commit -m "first commit"
+# git branch -M main
+# git remote add origin https://github.com/ashvxn/Project1.git
+# git push -u origin main
