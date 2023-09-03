@@ -1,5 +1,8 @@
 from flask import*
 import mysql.connector 
+import random
+from flask import Flask, render_template, redirect, request, session
+from flask_session import Session
 db = "project1"
 password = "ashvin2004"
 connection = mysql.connector.connect(
@@ -11,6 +14,9 @@ connection = mysql.connector.connect(
 cursor = connection.cursor( buffered=True)
 
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 @app.route('/')
 def index():
     return render_template('home.html')
@@ -57,8 +63,33 @@ def entry():
             message = "Error,user already exist"
             return jsonify(message)
         
-        
+@app.route('/send_otp', methods =['POST'])     
+def otp():
+    otp = ""
+    d = request.json
+    
+    ph = d["1"]
+    for no in range(6):  
+        otp += str(random.randint(1,9))
+     # send sms(otp)
+    # print(otp)
+    session[ph] = otp
+    
+    return ('' , 204)
+@app.route('/check_otp', methods =['POST'])
+def checker():
+    otp = ""
+    d = request.json
+    ph = list(d.keys())[0] 
+    entered_otp = d[ph]
+    print(entered_otp)
 
+    if entered_otp == session.get(ph):
+        print("true")
+    
+    print(session.get(ph))
+    
+    return ('' , 204)
 
 
 if __name__ == "__main__":
