@@ -86,10 +86,13 @@ def checker():
 
     if entered_otp == session.get(ph):
         print("true")
+        return ('' , 204)
     
-    print(session.get(ph))
-    
-    return ('' , 204)
+    else:
+        message = "OTP missmatch"
+        return jsonify(message)
+
+        
 
 
 if __name__ == "__main__":
