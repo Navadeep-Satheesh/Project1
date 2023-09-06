@@ -3,7 +3,7 @@ import mysql.connector
 import random
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
-db = "project1"
+db = "project2"
 password = "ashvin2004"
 connection = mysql.connector.connect(
     host = "localhost",
@@ -25,6 +25,7 @@ def index():
 def entry():
     if request.method == 'POST':
         d = request.json
+        print(d)
         cursor.execute(f"SELECT * FROM users ")
         data = cursor.fetchall()
         print(data)
