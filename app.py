@@ -22,7 +22,7 @@ def getconn():
     return conn
 
 
-pool = sqlalchemy.create_engine(
+cursor = sqlalchemy.create_engine(
     "mysql+pymysql://",
     creator=getconn,
 )
@@ -43,8 +43,8 @@ def entry():
     if request.method == 'POST':
         d = request.json
         print(d)
-        cursor.execute(f"SELECT * FROM users ")
-        data = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM users ").fetchall();
+        # data = cursor.fetchall()
         print(data)
         try:
 
@@ -73,7 +73,7 @@ def entry():
         if len(data) == 0 :
 
             cursor.execute(f"INSERT INTO users (PersonID , user_name , Ph, email) VALUES ('{user_id}','{name}' , '{mobile_number}','{email}');")
-            connection.commit()
+            # connection.commit()
             return ('' , 204)
 
     
