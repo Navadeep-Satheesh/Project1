@@ -3,15 +3,32 @@ import mysql.connector
 import random
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
-db = "project2"
-password = "ashvin2004"
-connection = mysql.connector.connect(
-    host = "localhost",
-    user = 'root',
-    password =   password ,
-    db = db
+
+from google.cloud.sql.connector import Connector, IPTypes
+import sqlalchemy
+import pymysql
+
+connector = Connector()
+
+def getconn():
+    conn = connector.connect(
+        "fresh-sanctuary-397904:us-west1:ingmen-central-db",
+        "pymysql",
+        user="test",
+        password="test1234",
+        db="testdb",
+        ip_type=IPTypes.PUBLIC
+    )
+    return conn
+
+
+pool = sqlalchemy.create_engine(
+    "mysql+pymysql://",
+    creator=getconn,
 )
-cursor = connection.cursor( buffered=True)
+
+
+#result = pool.execute("show tables").fetchall()
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
