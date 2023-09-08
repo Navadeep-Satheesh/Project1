@@ -68,7 +68,7 @@ def connect_with_connector() -> sqlalchemy.engine.base.Engine:
         )
         return conn
 
-connection = connect_with_connector()
+connection = Connector
 cursor = connection.cursor( buffered=True)
 d = connection.execute("select * from ingman-primary")
 data = cursor.fetchall()
