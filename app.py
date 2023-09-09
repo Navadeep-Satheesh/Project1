@@ -8,27 +8,39 @@ from google.cloud.sql.connector import Connector, IPTypes
 import sqlalchemy
 import pymysql
 
-connector = Connector()
+# connector = Connector()
 
-def getconn():
-    conn = connector.connect(
-        "fresh-sanctuary-397904:us-west1:ingmen-central-db",
-        "pymysql",
-        user="test",
-        password="test1234",
-        db="testdb",
-        ip_type=IPTypes.PUBLIC
-    )
-    return conn
-
-
-cursor = sqlalchemy.create_engine(
-    "mysql+pymysql://",
-    creator=getconn,
-)
+# def getconn():
+#     conn = connector.connect(
+#         "fresh-sanctuary-397904:us-west1:ingmen-central-db",
+#         "pymysql",
+#         user="test",
+#         password="test1234",
+#         db="testdb",
+#         ip_type=IPTypes.PUBLIC
+#     )
+    
+#     return conn
 
 
-#result = pool.execute("show tables").fetchall()
+# cursor = sqlalchemy.create_engine(
+#     "mysql+pymysql://",
+#     creator=getconn,
+# )
+# with cursor.connect() as cursor:
+
+
+# #result = pool.execute("show tables").fetchall()
+#     result = cursor.execute("show tables").fetchall()
+import sqlite3
+# from google.cloud import storage
+import mysql.connector
+import sys
+
+connection = mysql.connector.connect(user = 'ingmen-central-db' , password = 'astartup@2023' , host = '34.168.106.137' , database = 'ingman-primary')
+# connection = mysql.connector.connect(user = 'test' , password = 'test1234' , host = '34.168.106.137' , database = 'testdb')
+cursor = connection.cursor()
+
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -43,8 +55,8 @@ def entry():
     if request.method == 'POST':
         d = request.json
         print(d)
-        cursor.execute(f"SELECT * FROM users ").fetchall();
-        # data = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM users ")
+        data = cursor.fetchall()
         print(data)
         try:
 
@@ -73,7 +85,7 @@ def entry():
         if len(data) == 0 :
 
             cursor.execute(f"INSERT INTO users (PersonID , user_name , Ph, email) VALUES ('{user_id}','{name}' , '{mobile_number}','{email}');")
-            # connection.commit()
+            connection.commit()
             return ('' , 204)
 
     
