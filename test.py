@@ -1,11 +1,5 @@
-from flask import Flask 
+import urllib.request
 
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
 
-app = Flask(__name__)
-
-@app.route("/")
-def home():
-    return "hiiii"
-
-
-app.run()
+print(external_ip)
