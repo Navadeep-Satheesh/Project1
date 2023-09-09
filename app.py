@@ -50,6 +50,9 @@ Session(app)
 def index():
     return render_template('home.html')
 
+
+
+
 @app.route('/entry', methods =['POST'])
 def entry():
     if request.method == 'POST':
