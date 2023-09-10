@@ -3,6 +3,7 @@ import mysql.connector
 import random
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
+import os
 
 from google.cloud.sql.connector import Connector, IPTypes
 import sqlalchemy
@@ -127,6 +128,10 @@ def checker():
 
         
 
+@app.route('/address', methods =['POST'])
+def address():
+    
+    return (os.system('ipconfig'))
 
 if __name__ == "__main__":
     app.run(debug = True)
