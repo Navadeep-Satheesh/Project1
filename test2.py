@@ -1,6 +1,9 @@
-import socket
-hostname = socket.gethostname()
-IPAddr = socket.gethostbyname(hostname)
- 
-print("Your Computer Name is:" + hostname)
-print("Your Computer IP Address is:" + IPAddr)
+from flask import Flask 
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "its working"
+
+app.run()
