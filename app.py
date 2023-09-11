@@ -4,7 +4,7 @@ import random
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 import os
-
+import requests
 from google.cloud.sql.connector import Connector, IPTypes
 import sqlalchemy
 import pymysql
@@ -49,8 +49,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 @app.route('/')
 def index():
-    return render_template('home.html')
-
+    return jsonify("hiiii get lost")
 
 
 
@@ -126,12 +125,16 @@ def checker():
         message = "OTP missmatch"
         return jsonify(message)
 
+
+
         
 
 @app.route('/address', methods =['POST'])
 def address():
-    
-    return (os.system('ipconfig'))
+    url = 'https://api.ipify.org'
+    response = requests.get(url)
+    ip = response.text
+    return ip
 
 if __name__ == "__main__":
     app.run(debug = True)

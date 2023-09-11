@@ -1,5 +1,9 @@
-import urllib.request
+import os
+import requests
 
-external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+url = 'https://api.ipify.org'
+response = requests.get(url)
+ip = response.text
+print(ip)
 
-print(external_ip)
+# Call the function to get the IP address
