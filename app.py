@@ -33,6 +33,7 @@ import pymysql
 
 # #result = pool.execute("show tables").fetchall()
 #     result = cursor.execute("show tables").fetchall()
+
 import sqlite3
 # from google.cloud import storage
 import mysql.connector
@@ -87,14 +88,15 @@ def entry():
         
         if len(data) == 0 :
 
-            cursor.execute(f"INSERT INTO users (PersonID , user_name , Ph, email) VALUES ('{user_id}','{name}' , '{mobile_number}','{email}');")
+            cursor.execute(f"INSERT INTO users (PersonID , user_name ,ph, email) VALUES ('{user_id}','{name}' , '{mobile_number}','{email}');")
             connection.commit()
             return ('' , 204)
 
     
         else:
-            message = "Error,user already exist"
-            return jsonify(message)
+            cursor.execute(f"UPDATE users SET PersonID = {user_id}, user_name = {name}, email= {email} WHERE ph = {mobile_number};")
+            connection.commit()
+            return ('' , 204)
         
 @app.route('/send_otp', methods =['POST'])     
 def otp():
@@ -109,6 +111,7 @@ def otp():
     session[ph] = otp
     
     return ('' , 204)
+
 @app.route('/check_otp', methods =['POST'])
 def checker():
     otp = ""

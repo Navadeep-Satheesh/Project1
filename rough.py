@@ -120,5 +120,10 @@ connection = mysql.connector.connect(user = 'ingmen-central-db' , password = 'as
 # connection = mysql.connector.connect(user = 'test' , password = 'test1234' , host = '34.168.106.137' , database = 'testdb')
 cursor = connection.cursor()
 cursor.execute('select * from users')
+
 data = cursor.fetchall()
 print(data)
+
+
+
+
