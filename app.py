@@ -94,7 +94,7 @@ def entry():
 
     
         else:
-            cursor.execute(f"UPDATE users SET PersonID = {user_id}, user_name = {name}, email= {email} WHERE ph = {mobile_number};")
+            cursor.execute(f"UPDATE users SET  user_name = '{name}', email= '{email}' WHERE ph = '{mobile_number}';")
             connection.commit()
             return ('' , 204)
         
