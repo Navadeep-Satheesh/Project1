@@ -4,7 +4,7 @@ import random
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 import os
-
+import requests
 from google.cloud.sql.connector import Connector, IPTypes
 import sqlalchemy
 import pymysql
@@ -33,6 +33,7 @@ import pymysql
 
 # #result = pool.execute("show tables").fetchall()
 #     result = cursor.execute("show tables").fetchall()
+
 import sqlite3
 # from google.cloud import storage
 import mysql.connector
@@ -49,8 +50,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 @app.route('/')
 def index():
-    return render_template('home.html')
-
+    return jsonify("hiiii get lost")
 
 
 
@@ -88,14 +88,15 @@ def entry():
         
         if len(data) == 0 :
 
-            cursor.execute(f"INSERT INTO users (PersonID , user_name , Ph, email) VALUES ('{user_id}','{name}' , '{mobile_number}','{email}');")
+            cursor.execute(f"INSERT INTO users (PersonID , user_name ,ph, email) VALUES ('{user_id}','{name}' , '{mobile_number}','{email}');")
             connection.commit()
             return ('' , 204)
 
     
         else:
-            message = "Error,user already exist"
-            return jsonify(message)
+            cursor.execute(f"UPDATE users SET  user_name = '{name}', email= '{email}' WHERE ph = '{mobile_number}';")
+            connection.commit()
+            return ('' , 204)
         
 @app.route('/send_otp', methods =['POST'])     
 def otp():
@@ -110,6 +111,7 @@ def otp():
     session[ph] = otp
     
     return ('' , 204)
+
 @app.route('/check_otp', methods =['POST'])
 def checker():
     otp = ""
@@ -126,15 +128,19 @@ def checker():
         message = "OTP missmatch"
         return jsonify(message)
 
+
+
         
 
 @app.route('/address', methods =['POST'])
 def address():
-    
-    return (os.system('ipconfig'))
+    url = 'https://api.ipify.org'
+    response = requests.get(url)
+    ip = response.text
+    return ip
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True,  host = "0.0.0.0" , port = 8080)
 #git init
 # git commit -m "first commit"
 # git branch -M main
